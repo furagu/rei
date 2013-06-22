@@ -1,0 +1,33 @@
+{
+  "name": "rei",
+  "version": "0.0.0",
+  "description": "Single-page image resizer & watermarker.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/furagu/rei.git"
+  },
+  "keywords": [
+    "image",
+    "resize",
+    "watermark"
+  ],
+  "author": "Egor Balyshev",
+  "license": "MIT",
+  "gitHead": "5939760c99ef6d6f819a19a10f5d4930cdc8d40b",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/furagu/rei/issues"
+  },
+  "dependencies": {
+    "formidable": "~1.0.14",
+    "sweet": "~0.1.1",
+    "translit-russian": "0.0.1",
+    "node-gd": "~0.2.3",
+    "tar-async": "~1.2.0",
+    "buffertools": "~1.1.1"
+  }
+}
