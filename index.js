@@ -54,7 +54,8 @@ function serveUploadForm (res, watermarks, callback) {
                 '<option>Без логотипа</option>' +
             '</select>' +
             '<select name="watermark_position">' +
-                '<option value="right">Логотип справа</option><option value="left">Логотип слева</option>' +
+                '<option value="rb">Логотип справа внизу</option><option value="lb">Логотип слева внизу</option>' +
+                '<option value="rt">Логотип справа сверху</option><option value="lt">Логотип слева сверху</option>' +
             '</select>' +
             '<input type="file" name="file" multiple="multiple" onchange="this.form.submit(); this.value=null">' +
         '</form>'
@@ -68,11 +69,13 @@ function parseForm (req, watermarks, callback) {
             '600x600':   {width:600, height:600},
         },
         positions = {
-            'left':  {x:0, y:1},
-            'right': {x:1, y:1},
+            'lb': {x:0, y:1},
+            'rb': {x:1, y:1},
+            'lt': {x:0, y:0},
+            'rt': {x:1, y:0},
         }
     parsePostRequest(req, function(err, fields, files){
-        if (err) callback(err)
+        if (err) return callback(err)
         else callback(null,
             files,
             sizes[fields['size']],
@@ -84,15 +87,15 @@ function parseForm (req, watermarks, callback) {
 
 function processImages (files, size, watermark, watermark_position, callback) {
     async.map(files, function(file, callback){
-        var image
+        var image, data
         try {
             image = gd.createFromPtr(file.data)
             if (size)
                 image = image.resized(size)
             if (watermark && watermark_position)
                 image = image.watermark(watermark, watermark_position)
-            image = image.ptr({format: 'jpeg', 'jpegquality': 90})
-            callback(null, {name: file.name, data: image})
+            data = image.ptr({format: 'jpeg', 'jpegquality': 90})
+            callback(null, {name: file.name, data: data})
         } catch(err) {
             callback(err)
         }
