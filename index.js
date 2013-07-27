@@ -3,7 +3,7 @@ var
     fs = require('fs'),
     formidable = require('formidable'),
     sweet = require('sweet'),
-    gd = require('./lib/node-gd-extended'),
+    gd = require('easy-gd'),
     async = require('async'),
     tar = require('tar-async'),
     stream = require('stream')
@@ -31,7 +31,7 @@ function loadWatermarks (callback) {
         watermarks = {}
     fs.readdir(path, function(err, files){
         async.each(files, function(file, callback){
-            gd.open(path + file, function(err, image){
+            gd.createFrom(path + file, function(err, image){
                 watermarks[file] = image
                 callback(err)
             })
@@ -87,18 +87,16 @@ function parseForm (req, watermarks, callback) {
 
 function processImages (files, size, watermark, watermark_position, callback) {
     async.map(files, function(file, callback){
-        var image, data
-        try {
-            image = gd.createFromPtr(file.data)
+        gd.createFromPtr(file.data, function (err, image) {
+            var data
+            if(err) return callback(err)
             if (size)
                 image = image.resized(size)
             if (watermark && watermark_position)
-                image = image.watermark(watermark, watermark_position)
+                image.watermark(watermark, watermark_position)
             data = image.ptr({format: 'jpeg', 'jpegquality': 90})
             callback(null, {name: file.name, data: data})
-        } catch(err) {
-            callback(err)
-        }
+        })
     }, callback)
 }
 

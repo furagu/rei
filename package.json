@@ -1,6 +1,6 @@
 {
   "name": "rei",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Single-page image resizer & watermarker.",
   "main": "index.js",
   "scripts": {
@@ -26,9 +26,9 @@
     "formidable": "~1.0.14",
     "sweet": "~0.1.1",
     "translit-russian": "0.0.1",
-    "node-gd": "~0.2.3",
     "tar-async": "~1.2.0",
     "buffertools": "~1.1.1",
-    "async": "~0.2.9"
+    "async": "~0.2.9",
+    "easy-gd": "0.0.4"
   }
 }
